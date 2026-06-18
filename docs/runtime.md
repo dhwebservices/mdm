@@ -21,7 +21,7 @@ For the current production hostname:
 
 ```bash
 PUBLIC_BASE_URL=https://mdm.dhwebsiteservices.co.uk
-CORS_ORIGINS=https://mdm.dhwebsiteservices.co.uk
+CORS_ORIGINS=https://mdm.dhwebsiteservices.co.uk,https://api-mdm.dhwebsiteservices.co.uk
 MDM_SERVER_URL=https://mdm.dhwebsiteservices.co.uk/api/v1/mdm/connect
 MDM_CHECKIN_URL=https://mdm.dhwebsiteservices.co.uk/api/v1/mdm/checkin
 MDM_SCEP_URL=https://mdm.dhwebsiteservices.co.uk/scep

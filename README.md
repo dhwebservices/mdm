@@ -15,6 +15,12 @@ Internal Apple MDM platform for DH Website Services.
 docker compose up --build
 ```
 
+API-only stack for Cloudflare Tunnel:
+
+```bash
+docker compose -f docker-compose.api.yml up --build
+```
+
 Backend API: `http://localhost:8000`
 
 Frontend portal: `http://localhost:5173`

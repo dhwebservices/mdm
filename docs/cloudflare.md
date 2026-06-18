@@ -37,6 +37,18 @@ Run:
 docker compose -f docker-compose.yml -f docker-compose.cloudflare.yml --profile tunnel up --build
 ```
 
+If Cloudflare Pages is hosting the React portal, run only the API stack locally:
+
+```bash
+docker compose -f docker-compose.api.yml up --build
+```
+
+Then point the Tunnel route at:
+
+```text
+http://localhost:8080
+```
+
 ## R2
 
 R2 is reserved for large artifacts such as PKG uploads and script output. Set the R2 variables in `.env` before enabling those storage-backed services.
