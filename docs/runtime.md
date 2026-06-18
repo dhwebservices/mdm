@@ -28,3 +28,13 @@ MDM_SCEP_URL=https://mdm.dhwebsiteservices.co.uk/scep
 ```
 
 Apple enrollment will still fail until the APNs MDM topic/certificate and SCEP/device identity service are real production values.
+
+## Apple Business Manager Public Key
+
+Download the DH MDM public key certificate from:
+
+```text
+https://mdm.dhwebsiteservices.co.uk/api/v1/apple/abm/public-key-certificate
+```
+
+Upload that certificate to Apple Business Manager when connecting the external MDM server. Apple will then let you download the ABM server token `.p7m`.

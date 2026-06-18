@@ -24,6 +24,10 @@ Enrollment profile download:
 - `http://localhost:8000/api/v1/enrollment/mobileconfig?platform=macos`
 - `http://localhost:8000/api/v1/enrollment/mobileconfig?platform=ios`
 
+ABM public key certificate download:
+
+- `http://localhost:8000/api/v1/apple/abm/public-key-certificate`
+
 Cloudflare Tunnel deployment is documented in [docs/cloudflare.md](docs/cloudflare.md).
 
 Cloudflare Pages settings for the React portal are documented in [docs/cloudflare-pages.md](docs/cloudflare-pages.md).

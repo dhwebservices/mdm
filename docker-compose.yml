@@ -40,6 +40,7 @@ services:
       - "8000:8000"
     volumes:
       - ./backend:/app
+      - backend_data:/app/data
 
   worker:
     build: ./backend
@@ -67,3 +68,4 @@ services:
 
 volumes:
   postgres_data:
+  backend_data:
