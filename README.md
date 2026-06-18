@@ -30,6 +30,8 @@ Cloudflare Pages settings for the React portal are documented in [docs/cloudflar
 
 Apple MDM production inputs are listed in [docs/apple-mdm-required-info.md](docs/apple-mdm-required-info.md).
 
+Runtime secret handling is documented in [docs/runtime.md](docs/runtime.md).
+
 ## Notes
 
 The approved PostgreSQL schema was not present in the workspace. The initial migration preserves the requested table names and production-oriented relationships so development can continue; replace or reconcile it with the approved DDL when that file is available.
