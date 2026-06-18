@@ -20,6 +20,8 @@ To make DH MDM enroll real Macs, iPhones, and iPads, provide the following produ
 - ABM server token `.p7m`
 - DH MDM public key certificate, downloaded from:
   `https://mdm.dhwebsiteservices.co.uk/api/v1/apple/abm/public-key-certificate`
+- ABM server token upload endpoint:
+  `POST https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/abm/server-token`
 - ADE default enrollment profile choices:
   - mandatory MDM
   - non-removable MDM

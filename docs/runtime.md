@@ -38,3 +38,16 @@ https://mdm.dhwebsiteservices.co.uk/api/v1/apple/abm/public-key-certificate
 ```
 
 Upload that certificate to Apple Business Manager when connecting the external MDM server. Apple will then let you download the ABM server token `.p7m`.
+
+Upload the `.p7m` token to the backend:
+
+```bash
+curl -F "file=@/path/to/server-token.p7m" \
+  https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/abm/server-token
+```
+
+Check upload status:
+
+```bash
+curl https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/abm/server-token/status
+```

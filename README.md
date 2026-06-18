@@ -34,6 +34,10 @@ ABM public key certificate download:
 
 - `http://localhost:8000/api/v1/apple/abm/public-key-certificate`
 
+ABM server token upload:
+
+- `POST http://localhost:8000/api/v1/apple/abm/server-token`
+
 Cloudflare Tunnel deployment is documented in [docs/cloudflare.md](docs/cloudflare.md).
 
 Cloudflare Pages settings for the React portal are documented in [docs/cloudflare-pages.md](docs/cloudflare-pages.md).

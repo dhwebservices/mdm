@@ -60,3 +60,20 @@ class CertificateService:
         self.abm_public_cert_path.write_bytes(cert_bytes)
         self.abm_public_cert_path.chmod(0o644)
         return cert_bytes
+
+    @property
+    def abm_server_token_path(self) -> Path:
+        return self.data_dir / "abm_server_token.p7m"
+
+    def store_abm_server_token(self, token_bytes: bytes) -> Path:
+        if not token_bytes:
+            raise ValueError("ABM server token is empty")
+        self.abm_server_token_path.write_bytes(token_bytes)
+        self.abm_server_token_path.chmod(0o600)
+        return self.abm_server_token_path
+
+    def abm_server_token_status(self) -> dict[str, object]:
+        if not self.abm_server_token_path.exists():
+            return {"uploaded": False, "size": 0}
+        stat = self.abm_server_token_path.stat()
+        return {"uploaded": True, "size": stat.st_size}
