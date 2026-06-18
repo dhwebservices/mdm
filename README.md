@@ -26,6 +26,8 @@ Enrollment profile download:
 
 Cloudflare Tunnel deployment is documented in [docs/cloudflare.md](docs/cloudflare.md).
 
+Cloudflare Pages settings for the React portal are documented in [docs/cloudflare-pages.md](docs/cloudflare-pages.md).
+
 Apple MDM production inputs are listed in [docs/apple-mdm-required-info.md](docs/apple-mdm-required-info.md).
 
 ## Notes
