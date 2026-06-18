@@ -51,3 +51,25 @@ Check upload status:
 ```bash
 curl https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/abm/server-token/status
 ```
+
+## APNs MDM Push Certificate
+
+Download the APNs CSR:
+
+```bash
+curl -o dh-mdm-apns-mdm.csr \
+  https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/apns/csr
+```
+
+Upload `dh-mdm-apns-mdm.csr` to the Apple Push Certificates Portal. Download the Apple-issued MDM push certificate, then upload it:
+
+```bash
+curl -F "file=@/path/to/apple-mdm-push-certificate.pem" \
+  https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/apns/certificate
+```
+
+Check APNs certificate status and topic:
+
+```bash
+curl https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/apns/certificate/status
+```

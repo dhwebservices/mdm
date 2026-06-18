@@ -77,3 +77,84 @@ class CertificateService:
             return {"uploaded": False, "size": 0}
         stat = self.abm_server_token_path.stat()
         return {"uploaded": True, "size": stat.st_size}
+
+    @property
+    def apns_private_key_path(self) -> Path:
+        return self.data_dir / "apns_mdm_private_key.pem"
+
+    @property
+    def apns_csr_path(self) -> Path:
+        return self.data_dir / "apns_mdm.csr"
+
+    @property
+    def apns_certificate_path(self) -> Path:
+        return self.data_dir / "apns_mdm_certificate.pem"
+
+    def ensure_apns_csr(self) -> bytes:
+        if self.apns_csr_path.exists() and self.apns_private_key_path.exists():
+            return self.apns_csr_path.read_bytes()
+
+        private_key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
+        csr = (
+            x509.CertificateSigningRequestBuilder()
+            .subject_name(
+                x509.Name(
+                    [
+                        x509.NameAttribute(NameOID.ORGANIZATION_NAME, settings.mdm_organization),
+                        x509.NameAttribute(NameOID.COMMON_NAME, "DH MDM APNs MDM Push Certificate"),
+                    ]
+                )
+            )
+            .sign(private_key, hashes.SHA256())
+        )
+
+        self.apns_private_key_path.write_bytes(
+            private_key.private_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PrivateFormat.PKCS8,
+                encryption_algorithm=serialization.NoEncryption(),
+            )
+        )
+        self.apns_private_key_path.chmod(0o600)
+
+        csr_bytes = csr.public_bytes(serialization.Encoding.PEM)
+        self.apns_csr_path.write_bytes(csr_bytes)
+        self.apns_csr_path.chmod(0o644)
+        return csr_bytes
+
+    def store_apns_certificate(self, certificate_bytes: bytes) -> dict[str, object]:
+        if not certificate_bytes:
+            raise ValueError("APNs certificate is empty")
+
+        certificate = self._load_certificate(certificate_bytes)
+        topic = self._extract_apns_topic(certificate)
+        self.apns_certificate_path.write_bytes(certificate.public_bytes(serialization.Encoding.PEM))
+        self.apns_certificate_path.chmod(0o600)
+        return {"uploaded": True, "topic": topic, "expires_at": certificate.not_valid_after_utc.isoformat()}
+
+    def apns_certificate_status(self) -> dict[str, object]:
+        if not self.apns_certificate_path.exists():
+            return {"uploaded": False, "topic": None, "expires_at": None}
+        certificate = self._load_certificate(self.apns_certificate_path.read_bytes())
+        return {
+            "uploaded": True,
+            "topic": self._extract_apns_topic(certificate),
+            "expires_at": certificate.not_valid_after_utc.isoformat(),
+        }
+
+    def _load_certificate(self, certificate_bytes: bytes) -> x509.Certificate:
+        try:
+            return x509.load_pem_x509_certificate(certificate_bytes)
+        except ValueError:
+            return x509.load_der_x509_certificate(certificate_bytes)
+
+    def _extract_apns_topic(self, certificate: x509.Certificate) -> str | None:
+        for attribute in certificate.subject:
+            value = str(attribute.value)
+            if value.startswith("com.apple.mgmt."):
+                return value
+        for attribute in certificate.subject:
+            value = str(attribute.value)
+            if "com.apple.mgmt." in value:
+                return value[value.index("com.apple.mgmt.") :]
+        return None

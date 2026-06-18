@@ -14,6 +14,10 @@ To make DH MDM enroll real Macs, iPhones, and iPads, provide the following produ
 - APNs MDM certificate/private key or APNs token-auth credentials appropriate for the MDM push certificate
 - Apple ID used to renew the MDM push certificate
 - Certificate expiry date
+- DH MDM APNs CSR download endpoint:
+  `GET https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/apns/csr`
+- Apple-issued APNs MDM certificate upload endpoint:
+  `POST https://api-mdm.dhwebsiteservices.co.uk/api/v1/apple/apns/certificate`
 
 ## Apple Business Manager
 

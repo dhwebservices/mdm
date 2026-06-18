@@ -28,3 +28,31 @@ async def upload_abm_server_token(file: UploadFile = File(...)) -> dict[str, obj
     content = await file.read()
     path = CertificateService().store_abm_server_token(content)
     return {"uploaded": True, "filename": filename, "size": path.stat().st_size}
+
+
+@router.get("/apns/csr")
+def download_apns_csr() -> Response:
+    csr = CertificateService().ensure_apns_csr()
+    return Response(
+        content=csr,
+        media_type="application/x-pem-file",
+        headers={"Content-Disposition": 'attachment; filename="dh-mdm-apns-mdm.csr"'},
+    )
+
+
+@router.get("/apns/certificate/status")
+def apns_certificate_status() -> dict[str, object]:
+    return CertificateService().apns_certificate_status()
+
+
+@router.post("/apns/certificate", status_code=status.HTTP_201_CREATED)
+async def upload_apns_certificate(file: UploadFile = File(...)) -> dict[str, object]:
+    filename = file.filename or ""
+    if not filename.endswith((".pem", ".cer", ".crt")):
+        raise HTTPException(status_code=400, detail="Upload the Apple-issued APNs MDM certificate")
+    content = await file.read()
+    try:
+        result = CertificateService().store_apns_certificate(content)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail="Invalid APNs certificate") from exc
+    return {"filename": filename, **result}
