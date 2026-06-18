@@ -9,19 +9,21 @@ Apple MDM requires stable public HTTPS URLs for check-in and command connection.
 Set:
 
 ```bash
-PUBLIC_BASE_URL=https://mdm.yourdomain.com
-MDM_SERVER_URL=https://mdm.yourdomain.com/api/v1/mdm/connect
-MDM_CHECKIN_URL=https://mdm.yourdomain.com/api/v1/mdm/checkin
-CORS_ORIGINS=https://mdm.yourdomain.com
+PUBLIC_BASE_URL=https://mdm.dhwebsiteservices.co.uk
+MDM_SERVER_URL=https://mdm.dhwebsiteservices.co.uk/api/v1/mdm/connect
+MDM_CHECKIN_URL=https://mdm.dhwebsiteservices.co.uk/api/v1/mdm/checkin
+CORS_ORIGINS=https://mdm.dhwebsiteservices.co.uk
 ```
 
 ## Tunnel
 
-Create a Cloudflare Tunnel for the hostname and point it at the local Nginx service:
+Create a Cloudflare Tunnel for the backend origin and point it at the local Nginx service:
 
 ```text
 http://nginx:8080
 ```
+
+If `mdm.dhwebsiteservices.co.uk` is attached to Cloudflare Pages, do not attach the same hostname directly to the Tunnel. Instead, expose the backend at another protected origin and set Cloudflare Pages `API_ORIGIN` to that URL. The Pages Function will proxy `https://mdm.dhwebsiteservices.co.uk/api/*` to the backend.
 
 Then set:
 

@@ -35,7 +35,7 @@ Apple MDM enrollment needs a device identity. Provide one of:
 The current `.mobileconfig` generator expects SCEP values:
 
 ```bash
-MDM_SCEP_URL=https://mdm.example.com/scep
+MDM_SCEP_URL=https://mdm.dhwebsiteservices.co.uk/scep
 MDM_SCEP_CHALLENGE=...
 ```
 

@@ -22,16 +22,17 @@ Cloudflare's Pages documentation lists React/Vite as `npm run build` with output
 Set this in Cloudflare Pages:
 
 ```bash
-VITE_API_BASE_URL=https://mdm.yourdomain.com/api/v1
+VITE_API_BASE_URL=/api/v1
+API_ORIGIN=https://YOUR_BACKEND_TUNNEL_ORIGIN
 ```
 
-Use the public FastAPI backend URL served by Cloudflare Tunnel or your production container host.
+`API_ORIGIN` is used by the Pages Function in `frontend/functions/api/[[path]].ts` to proxy `/api/*` to FastAPI. Point it at the backend origin served by Cloudflare Tunnel or your production container host.
 
 ## Custom Domain Split
 
-Recommended:
+Configured public hostname:
 
-- Portal: `https://portal.yourdomain.com` on Cloudflare Pages
-- MDM API: `https://mdm.yourdomain.com` through Cloudflare Tunnel to Nginx/backend
+- Portal: `https://mdm.dhwebsiteservices.co.uk` on Cloudflare Pages
+- MDM API: `https://mdm.dhwebsiteservices.co.uk/api/*` proxied by a Cloudflare Pages Function to `API_ORIGIN`
 
 Apple device enrollment must use the API hostname, not the static Pages hostname.
